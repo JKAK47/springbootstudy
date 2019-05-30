@@ -56,7 +56,7 @@ public class HelloControllerTes {
      */
     @Test
     public void nametest() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/name")
+        mvc.perform(MockMvcRequestBuilders.get("/name")
                 .param("name","2343asd")
                 //.content("{\"userid\":\"11144333\",\"password\":\"passwosdfasrd\"}")
                 .contentType(MediaType.APPLICATION_JSON)

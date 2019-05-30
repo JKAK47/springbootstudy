@@ -45,7 +45,7 @@ public class HelloController {
      * @param name
      * @return
      */
-    @RequestMapping(path = "/name",method = RequestMethod.POST)
+    @RequestMapping(path = "/name",method = RequestMethod.GET)
     public String index(@RequestParam(required = false) String name ) {
 
         return "Hello World" + name;
