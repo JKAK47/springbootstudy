@@ -24,7 +24,7 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- dev tool -->
+        <!-- dev tool 让修改实时生效 。 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
