@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.5.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>org.vincent.springbootstudy</groupId>
+    <artifactId>springbootstudy-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>springbootstudy-parent</name>
+    <description> Spring Boot study 构建示例</description>
+
+    <!-- 共用的属性  -->
+    <properties>
+        <project.build.version>1.0-SNAPSHOT</project.build.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <javax.validation.version>2.0.1.Final</javax.validation.version>
+        <hibernate.validation.version>6.0.16.Final</hibernate.validation.version>
+    </properties>
+    <!-- 开发者信息 -->
+
+    <developers>
+        <developer>
+            <id>0001</id>
+            <name>PengRong</name>
+            <email>1557862201@qq.com</email>
+        </developer>
+    </developers>
+
+    <!-- 父级pom里面管理所有组件依赖，其他module 按需 声明使用即可 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- test unit begin -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.hamcrest</groupId>
+                        <artifactId>hamcrest-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-core</artifactId>
+                <version>1.3</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- test unit stop  -->
+
+            <!-- spring boot basic begin -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <scope>test</scope>
+            </dependency>
+            <!-- spring boot basic stop -->
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- 项目范围级别 compiler 全局配置
+                               compiler:compile 目标将去编译java代码以及main/resources目录下的资源文件
+                           -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.7.0</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                        <!-- 声明代码使用什么JDK 版本进行编译 -->
+                        <source>${maven.compiler.source}</source>
+                        <!-- 声明编译后的代码将运行在哪个JDK版本 -->
+                        <target>${maven.compiler.target}</target>
+                        <!-- 设置编译插件在编译期间使用的JDK版本 -->
+                        <fork>true</fork> <!-- fork = true 让compilerVersion 属性生效。
+                        compilerVersion 属性设置编译器使用的jdk版本 executable 设置使用的jdk路径
+                    -->
+                        <compilerVersion>${maven.compiler.source}</compilerVersion>
+                        <!--<executable>${JAVA8_HOME}/bin/javac</executable>-->
+                        <!-- 从 3.0后的编译插件，maven默认使用的编译器 是 javax.tools.JavaCompiler
+                            如果你想强制让这个插件使用javac 设置属性 forceJavacCompilerUse =true 即可。
+                         -->
+                        <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                    </configuration>
+                </plugin>
+
+                <!-- 配置一个产生源码 jar 包的 插件，绑定到verify 阶段执行这个目标 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.0.1</version>
+                    <!-- 这里是插件全局配置 -->
+                    <configuration>
+                        <attach>true</attach>
+                        <!-- 配置是否将配置文件去除（true）,false 不去除 -->
+                        <excludeResources>false</excludeResources>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attach-source</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                            <!-- 插件任务配置 -->
+                            <configuration>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- 配置打包过程中跳过测试插件， -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.19.1</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+                <!-- 声明使用UTF-8编码去处理资源文件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+                <!-- clean 清理周期插件
+                        并将清理命令绑定到 打包周期的initialize阶段
+                        mvn package和 mvn clean package就是等价的
+                  -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <!-- 配置 clean 失败后是否还能继续执行其他命令
+                        failOnError = false  忽略错误继续执行
+                        failOnError = true  报错不继续执行
+                      -->
+                    <configuration>
+                        <failOnError>true</failOnError>
+                    </configuration>
+                    <!--绑定clean 到打包周期的 initialize 阶段 -->
+                    <executions>
+                        <execution>
+                            <id>auto-clean</id>
+                            <phase>initialize</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!--  使用 maven-war-plugin 插件 申明如果确实web.xml 文件也不要构建失败，
+                因为这个案例实现没有web.xml 部署构建文件的 javaweb 案例
+                              该插件如果不配置将报错
+                            -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.2.2</version>
+                    <configuration>
+                        <!-- <warSourceDirectory>/src/main/webapp</warSourceDirectory>-->
+                        <failOnMissingWebXml>false</failOnMissingWebXml> <!-- 申明不要 web.xml 文件， 也可以不配置，默认值是false  -->
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
