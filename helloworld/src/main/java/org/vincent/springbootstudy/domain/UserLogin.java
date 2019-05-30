@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
 @Validated
 public class UserLogin {
     @NotEmpty
-    @Size(min = 8,max = 12)
+    @Size(min = 8,max = 12,message = "userid 区间在[8,12]")
     private String userid;
     @NotEmpty
     private String password;
