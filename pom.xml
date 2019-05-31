@@ -28,6 +28,7 @@
     <modules>
         <module>helloworld</module>
         <module>devtools</module>
+        <module>restfulcrudjpa</module>
     </modules>
     <!-- 开发者信息 -->
 
