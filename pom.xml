@@ -189,10 +189,13 @@
                         <failOnMissingWebXml>false</failOnMissingWebXml> <!-- 申明不要 web.xml 文件， 也可以不配置，默认值是false  -->
                     </configuration>
                 </plugin>
-
+                <!--运用SpringBoot 插件  使用spring-boot-devtools模块的应用,当classpath中的文件有改变时，会自动重启！ -->
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <fork>true</fork>
+                    </configuration>
                 </plugin>
 
             </plugins>
