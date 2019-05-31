@@ -11,6 +11,7 @@
 	<groupId>org.vincent.springbootstudy</groupId>
 	<artifactId>restfulcrudjpa</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>RestfulCRUDJPA</name>
 	<description>Demo project for Spring Boot</description>
 
