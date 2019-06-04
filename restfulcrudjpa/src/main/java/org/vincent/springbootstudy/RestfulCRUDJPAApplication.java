@@ -16,13 +16,13 @@ import java.util.List;
 //@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 @RestController
 @MapperScan("org.vincent.springbootstudy.dao.impl")
-public class RestfulcrudjpsApplication {
+public class RestfulCRUDJPAApplication {
 
     @Autowired
     private TUserMapper tUserMapper;
 
     public static void main(String[] args) {
-        SpringApplication.run(RestfulcrudjpsApplication.class, args);
+        SpringApplication.run(RestfulCRUDJPAApplication.class, args);
     }
 
     @RequestMapping(path = "/")
